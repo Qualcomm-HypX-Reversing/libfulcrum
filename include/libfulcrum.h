@@ -1,5 +1,8 @@
 #ifndef __YODIE_GANG
 #define __YODIE_GANG
+#include <unistd.h>
+#include <string.h>
+#include <stdarg.h>
 
 //I AM THE ORIGINAL FULCRUM. FULCRUM COME IN. YUHHHH YODIEGANG.
 

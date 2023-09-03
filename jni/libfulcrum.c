@@ -1,9 +1,4 @@
 #include <stdio.h>
-#include <sys/syscall.h>      /* Definition of SYS_* constants */
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
-#include <fcntl.h>
 #include "libfulcrum.h"
 
 
@@ -11,8 +6,9 @@
 
 long kexecute(void* sym_addr, ...){
   va_list argp;
+  va_start(argp, sym_addr);
 
-  return syscall(SYSCALL_NUMBER, PLUG, va_arg(argp, long), va_arg(argp, long), va_arg(argp, long), va_arg(argp, long), va_arg(argp, long), va_arg(argp, long)); //it doesn't matter if we supply too many arguments because the function will just ignore it lmfao.
+  return syscall(SYSCALL_NUMBER, PLUG, sym_addr, va_arg(argp, long), va_arg(argp, long), va_arg(argp, long), va_arg(argp, long), va_arg(argp, long), va_arg(argp, long)); //it doesn't matter if we supply too many arguments because the function will just ignore it lmfao.
 
 }
 
@@ -30,12 +26,14 @@ void kwrite(void* kbuf, void* user_buf, size_t size){
 
 
 void* kmalloc(size_t size){
-  static void* __kmalloc_addr = NULL;
   
+  static void* __kmalloc_addr = NULL;
   if(!__kmalloc_addr){
-   __kmalloc_addr = ksymbol("__kmalloc");
+    __kmalloc_addr = ksymbol("__kmalloc");
   }
-
+  
+  
+  printf("kmalloc: %p\n", __kmalloc_addr);
   return (void*)kexecute(__kmalloc_addr, size);
 }
 

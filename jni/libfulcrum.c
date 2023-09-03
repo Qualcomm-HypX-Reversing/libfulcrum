@@ -4,7 +4,9 @@
 
 
 
-long kexecute(void* sym_addr, ...){
+
+
+long __kexecute(void* sym_addr, ...){
   va_list argp;
   va_start(argp, sym_addr);
 
@@ -24,6 +26,39 @@ void kwrite(void* kbuf, void* user_buf, size_t size){
   syscall(SYSCALL_NUMBER, FULCRUM, kbuf, user_buf, size);
 }
 
+unsigned char kreadb(void* kbuf){
+  return (unsigned char)syscall(SYSCALL_NUMBER, OBLIVIATE, kbuf);
+}
+
+unsigned short kreadw(void* kbuf){
+  return (unsigned short)syscall(SYSCALL_NUMBER, EXQUISITE, kbuf);
+}
+
+unsigned int kreadl(void* kbuf){
+  return (unsigned int)syscall(SYSCALL_NUMBER, FADEDTHANAHOE, kbuf);
+}
+
+unsigned long kreadq(void* kbuf){
+  return (unsigned long)syscall(SYSCALL_NUMBER, SHALLWE, kbuf);
+}
+
+void kwriteb(void* kbuf, char to_write){
+  syscall(SYSCALL_NUMBER, BLINKERTONCITY, kbuf, (long)to_write);
+}
+
+void kwritew(void* kbuf, short to_write){
+  syscall(SYSCALL_NUMBER, YOUFEELME, kbuf, (long)to_write);
+}
+
+void kwritel(void* kbuf, int to_write){
+  syscall(SYSCALL_NUMBER, CHEERSMYFRIENDS, kbuf, (long)to_write);
+}
+
+void kwriteq(void* kbuf, long to_write){
+  syscall(SYSCALL_NUMBER, STIIZYPODS, kbuf, to_write);
+}
+
+
 
 void* kmalloc(size_t size){
   
@@ -32,67 +67,24 @@ void* kmalloc(size_t size){
     __kmalloc_addr = ksymbol("__kmalloc");
   }
   
-  
-  printf("kmalloc: %p\n", __kmalloc_addr);
-  return (void*)kexecute(__kmalloc_addr, size);
+  return (void*)__kexecute(__kmalloc_addr, size);
 }
 
 void kfree(void* kbuf){
-  static void* kfree_addr = NULL;
+  static void* kfree_addr = NULL; 
   if(!kfree_addr){
     kfree_addr = ksymbol("kfree");
   }
 
-  kexecute(kfree_addr, kbuf);
+  __kexecute(kfree_addr, kbuf);
   
+}
+
+void* get_phys_memory(void* phys_addr, size_t size){
+  return (void*)kexecute("ioremap_cache", phys_addr, size);
 }
 
 
 
-/*
-int main()
-{
-  char* __kmalloc = "__kmalloc";
-  void* __kmalloc_addr = 
-  printf("__kmalloc: %p\n", __kmalloc_addr);
-  //execute
-  void* kbuf = (void*)syscall(0xfaded, PLUG, __kmalloc_addr, 0x8);
-
-  printf("kbuf: %p\n", kbuf);
 
 
-
-  char* qcom_smem_get = "qcom_smem_get";
-  void* qcom_smem_get_addr = (void*)syscall(0xfaded, IGOT5THINGSTOSAY, qcom_smem_get, strlen(qcom_smem_get)+1);
-
-  printf("%s: %p\n", qcom_smem_get, qcom_smem_get_addr);
-
-  void* part_table_start = (void*)syscall(0xfaded, PLUG, qcom_smem_get_addr, (long)-1, 0x192, kbuf);
-
-  printf("Partition table start: %p\n", part_table_start);
-
-  size_t part_table_size = 0;
-
-  syscall(0xfaded, PENJAMINCITY, &part_table_size, kbuf, sizeof(part_table_size));
-
-  printf("Partition table size: %p", (void*)part_table_size);
-
-  void* partition_table = malloc(part_table_size);
-
-  syscall(0xfaded, PENJAMINCITY, partition_table, part_table_start, part_table_size);
-
-  int fd = open("part_table_dump", O_CREAT | O_WRONLY | O_TRUNC, 00777);
-
-  if(fd < 0){
-    printf("Failed to open fd\n");
-    return -1;
-  }
-
-  write(fd, partition_table, part_table_size);
-
-
-
-  
-  return 0;
-}
-*/

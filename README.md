@@ -9,5 +9,5 @@ This library will take you straight to yodie land baby
 
 To go straight to yodie land, you gotta hit a blinker. To hit a blinker you hit the pen (Compile the kernel patch in https://github.com/Qualcomm-HypX-Reversing/samsung-patcher) and wait until it blinks (Apply the kernel patch)
 
-From here, download the android NDK and run ndk-build in the **root** directory and you should have libfulcrum.a in `obj/`
+From here, you're basically in yodie land. Download the android NDK and run ndk-build in the **root** directory and you should have libfulcrum.a in `obj/`. This will allow you to communciate with fulcrum.
 

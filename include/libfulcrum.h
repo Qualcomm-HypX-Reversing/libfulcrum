@@ -13,7 +13,7 @@
 
 #define OBLIVIATE 0xf4 //readb
 #define EXQUISITE 0xf5 //readw
-#define FADEDTHANAHOE 0xf6 //readl
+#define FADEDTHANAHO 0xf6 //readl
 #define SHALLWE 0xf7 //readq
 #define BLINKERTONCITY 0xf8 //writeb
 #define YOUFEELME 0xf9 //writew
@@ -40,7 +40,7 @@ void kwritew(void* kbuf, short to_write);
 void kwritel(void* kbuf, int to_write);
 void kwriteq(void* kbuf, long to_write);
 
-
+void* get_phys_memory(void* phys_addr, size_t size);
 
 
 #endif

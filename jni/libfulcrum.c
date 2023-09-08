@@ -35,7 +35,7 @@ unsigned short kreadw(void* kbuf){
 }
 
 unsigned int kreadl(void* kbuf){
-  return (unsigned int)syscall(SYSCALL_NUMBER, FADEDTHANAHOE, kbuf);
+  return (unsigned int)syscall(SYSCALL_NUMBER, FADEDTHANAHO, kbuf);
 }
 
 unsigned long kreadq(void* kbuf){
